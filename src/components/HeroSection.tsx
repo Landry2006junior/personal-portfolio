@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, ExternalLink, ChevronDown, User } from "lucide-react";
+import { User, Github, Linkedin, ExternalLink, ChevronDown } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 const HeroSection = () => {
