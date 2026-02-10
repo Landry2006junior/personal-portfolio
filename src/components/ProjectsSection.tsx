@@ -12,20 +12,19 @@ interface Project {
 
 const projects: Project[] = [
   {
-    title: "Moviestream MVP",
+    title: "Library Management System",
     description:
-      "A full-stack movie streaming platform built with the MERN stack featuring secure media hosting, user authentication, and a scalable MongoDB schema design.",
-    tags: ["MongoDB", "Express", "React", "Node.js", "JWT", "AWS S3"],
+      "A full-stack library management platform built with the MERN stack featuring book cataloging, user borrowing system, and an admin dashboard for inventory management.",
+    tags: ["MongoDB", "Express", "React", "Node.js", "JWT"],
     featured: true,
     details: [
-      "Designed normalized MongoDB schemas for users, movies, and watchlists",
-      "Implemented JWT auth with refresh token rotation",
-      "Structured MERN folder architecture for scalability",
-      "Built secure media upload pipeline with pre-signed URLs",
+      "Designed normalized MongoDB schemas for books, users, and transactions",
+      "Implemented JWT auth with role-based access control",
+      "Built admin dashboard for real-time inventory tracking",
+      "Structured scalable MERN folder architecture",
     ],
     links: [
-      { label: "Live Demo", url: "#", icon: ExternalLink },
-      { label: "Source", url: "#", icon: Github },
+      { label: "Source", url: "https://github.com/Landry2006junior", icon: Github },
     ],
   },
   {
@@ -33,24 +32,14 @@ const projects: Project[] = [
     description:
       "Python automation tool for CI/CD pipeline management — handles builds, tests, and deployments with one command.",
     tags: ["Python", "Bash", "Docker", "GitHub Actions"],
-    links: [{ label: "Source", url: "#", icon: Github }],
-  },
-  {
-    title: "AniBoard Dashboard",
-    description:
-      "Anime-inspired admin dashboard UI with real-time charts, gamified user stats, and a custom design system.",
-    tags: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-    links: [
-      { label: "Live Demo", url: "#", icon: ExternalLink },
-      { label: "Source", url: "#", icon: Github },
-    ],
+    links: [{ label: "Source", url: "https://github.com/Landry2006junior", icon: Github }],
   },
   {
     title: "QueryForge",
     description:
       "Database optimization toolkit featuring query analysis, index recommendations, and schema migration utilities.",
     tags: ["PostgreSQL", "Node.js", "Performance"],
-    links: [{ label: "Source", url: "#", icon: Github }],
+    links: [{ label: "Source", url: "https://github.com/Landry2006junior", icon: Github }],
   },
 ];
 
@@ -63,6 +52,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -6 }}
       className={`group rounded-xl border bg-card card-hover ${
         isFeatured
           ? "border-primary/30 border-glow lg:col-span-2"
@@ -133,7 +123,26 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
 const ProjectsSection = () => {
   return (
     <section id="projects" className="py-24 relative">
-      <div className="container mx-auto px-6">
+      {/* Floating circles */}
+      {[...Array(5)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-primary/5 pointer-events-none"
+          style={{
+            width: 8 + i * 4,
+            height: 8 + i * 4,
+            right: `${10 + i * 18}%`,
+            top: `${10 + i * 18}%`,
+          }}
+          animate={{
+            y: [0, -30, 0],
+            opacity: [0.2, 0.6, 0.2],
+          }}
+          transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.6 }}
+        />
+      ))}
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

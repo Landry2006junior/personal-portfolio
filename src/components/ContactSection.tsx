@@ -1,11 +1,9 @@
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
+import { Github, Mail } from "lucide-react";
 
 const links = [
-  { icon: Github, label: "GitHub", url: "https://github.com", desc: "View my repos" },
-  { icon: Linkedin, label: "LinkedIn", url: "https://linkedin.com", desc: "Let's connect" },
-  { icon: ExternalLink, label: "Moviestream", url: "#", desc: "Live demo" },
-  { icon: Mail, label: "Email", url: "mailto:hello@example.com", desc: "Get in touch" },
+  { icon: Github, label: "GitHub", url: "https://github.com/Landry2006junior", desc: "View my repos" },
+  { icon: Mail, label: "Email", url: "mailto:Arushajuniorlandry@gmail.com", desc: "Get in touch" },
 ];
 
 const floatingOrbs = [
@@ -17,7 +15,7 @@ const floatingOrbs = [
 const ContactSection = () => {
   return (
     <section id="contact" className="py-24 relative bg-card/50 overflow-hidden">
-      {/* Looping floating orbs */}
+      {/* Floating orbs */}
       {floatingOrbs.map((orb, i) => (
         <motion.div
           key={i}
@@ -28,12 +26,22 @@ const ContactSection = () => {
             scale: [1, 1.2, 1, 0.9, 1],
             opacity: [0.3, 0.6, 0.3, 0.5, 0.3],
           }}
-          transition={{
-            duration: orb.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: orb.delay,
+          transition={{ duration: orb.duration, repeat: Infinity, ease: "easeInOut", delay: orb.delay }}
+        />
+      ))}
+
+      {/* Small floating circles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={`circle-${i}`}
+          className="absolute w-3 h-3 rounded-full bg-primary/20 pointer-events-none"
+          style={{ left: `${8 + i * 12}%`, top: `${20 + (i % 3) * 30}%` }}
+          animate={{
+            y: [0, -25, 0],
+            x: [0, i % 2 === 0 ? 15 : -15, 0],
+            opacity: [0.1, 0.5, 0.1],
           }}
+          transition={{ duration: 3 + i * 0.5, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
         />
       ))}
 
@@ -53,7 +61,7 @@ const ContactSection = () => {
           </p>
         </motion.div>
 
-        {/* Looping pulse ring behind the cards */}
+        {/* Pulse rings */}
         <div className="relative flex justify-center mb-12">
           <motion.div
             className="absolute w-72 h-72 rounded-full border border-primary/20"
@@ -67,7 +75,7 @@ const ContactSection = () => {
           />
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-md mx-auto">
           {links.map((link, i) => (
             <motion.a
               key={link.label}
@@ -78,6 +86,7 @@ const ContactSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.1 }}
+              whileHover={{ y: -6, scale: 1.05 }}
               className="group flex flex-col items-center p-6 rounded-xl bg-card border border-border card-hover text-center"
             >
               <motion.div

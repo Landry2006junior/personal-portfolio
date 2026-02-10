@@ -13,8 +13,22 @@ const skills = [
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="py-24 relative bg-card/50">
-      <div className="container mx-auto px-6">
+    <section id="skills" className="py-24 relative bg-card/50 overflow-hidden">
+      {/* Floating small circles */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 rounded-full bg-secondary/20 pointer-events-none"
+          style={{ left: `${5 + i * 18}%`, top: `${10 + (i % 2) * 60}%` }}
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.15, 0.5, 0.15],
+          }}
+          transition={{ duration: 3 + i * 0.7, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+        />
+      ))}
+
+      <div className="container mx-auto px-6 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -23,7 +37,7 @@ const SkillsSection = () => {
         >
           <p className="text-secondary text-sm tracking-[0.3em] uppercase mb-3 font-body">Skills</p>
           <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
-            Tech <span className="text-glow-pink text-secondary">Arsenal</span>
+            Tech <span className="text-glow-pink text-secondary">Stack</span>
           </h2>
         </motion.div>
 
@@ -35,6 +49,7 @@ const SkillsSection = () => {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
+              whileHover={{ x: 6 }}
             >
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-display font-medium text-foreground">{skill.name}</span>
