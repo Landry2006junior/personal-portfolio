@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import profilePhoto from "@/assets/profile-photo.png";
+
 import galleryCloud from "@/assets/gallery-cloud.jpg";
 import galleryApi from "@/assets/gallery-api.jpg";
 import galleryLibrary from "@/assets/gallery-library.jpg";
@@ -14,12 +14,10 @@ interface GalleryItem {
 }
 
 const galleryItems: GalleryItem[] = [
-  { id: 1, src: profilePhoto, label: "Profile Shot", category: "About Me" },
-  { id: 2, src: galleryLaptop, label: "Development Setup", category: "Workspace" },
+  { id: 1, src: galleryApi, label: "API Architecture", category: "Backend" },
+  { id: 2, src: galleryLibrary, label: "Library Management", category: "Project" },
   { id: 3, src: galleryCloud, label: "Cloud Infrastructure", category: "Technology" },
-  { id: 4, src: galleryApi, label: "API Architecture", category: "Backend" },
-  { id: 5, src: galleryLibrary, label: "Library System", category: "Project" },
-  { id: 6, src: profilePhoto, label: "The Developer", category: "About Me" },
+  { id: 4, src: galleryLaptop, label: "Development Setup", category: "Workspace" },
 ];
 
 const containerVariants = {
@@ -86,7 +84,7 @@ const GallerySection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto"
+          className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto"
         >
           {galleryItems.map((item) => (
             <motion.div
