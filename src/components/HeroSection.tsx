@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { User, Github, Linkedin, ExternalLink, ChevronDown } from "lucide-react";
+import { Github, ChevronDown } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import profilePhoto from "@/assets/profile-photo.png";
 
 const HeroSection = () => {
   return (
@@ -12,6 +13,22 @@ const HeroSection = () => {
         <div className="absolute inset-0 scanline pointer-events-none" />
       </div>
 
+      {/* Floating particles */}
+      {[...Array(6)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 rounded-full bg-primary/30 pointer-events-none"
+          style={{ left: `${15 + i * 15}%`, top: `${20 + (i % 3) * 25}%` }}
+          animate={{
+            y: [0, -40, 0],
+            x: [0, i % 2 === 0 ? 20 : -20, 0],
+            opacity: [0.2, 0.6, 0.2],
+            scale: [1, 1.5, 1],
+          }}
+          transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.5 }}
+        />
+      ))}
+
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
         {/* Profile Photo */}
@@ -22,11 +39,10 @@ const HeroSection = () => {
           className="mb-8 flex justify-center"
         >
           <div className="relative group">
-            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 overflow-hidden bg-muted/50 flex items-center justify-center group-hover:border-primary transition-colors duration-300">
-              <User className="w-16 h-16 md:w-20 md:h-20 text-muted-foreground/50" />
+            <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border-2 border-primary/50 overflow-hidden bg-muted/50 group-hover:border-primary transition-colors duration-300">
+              <img src={profilePhoto} alt="Landry" className="w-full h-full object-cover" />
             </div>
             <div className="absolute inset-0 rounded-full bg-primary/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            <p className="text-xs text-muted-foreground/50 mt-2 font-body">Upload your photo via chat</p>
           </div>
         </motion.div>
 
@@ -45,7 +61,7 @@ const HeroSection = () => {
           </h1>
           <p className="text-muted-foreground max-w-xl mx-auto text-lg mb-10 font-body">
             Full-stack developer specializing in MERN stack, Python automation,
-            and anime-inspired creative interfaces.
+            and crafting high-performance web applications.
           </p>
         </motion.div>
 
@@ -75,14 +91,8 @@ const HeroSection = () => {
           transition={{ delay: 1.2, duration: 1 }}
           className="flex items-center justify-center gap-6 mt-12"
         >
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+          <a href="https://github.com/Landry2006junior" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
             <Github className="w-5 h-5" />
-          </a>
-          <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-            <Linkedin className="w-5 h-5" />
-          </a>
-          <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
-            <ExternalLink className="w-5 h-5" />
           </a>
         </motion.div>
       </div>
