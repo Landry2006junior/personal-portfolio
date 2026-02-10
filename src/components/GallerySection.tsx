@@ -1,28 +1,30 @@
 import { motion } from "framer-motion";
-import { ImagePlus, User } from "lucide-react";
 import { useState } from "react";
+import profilePhoto from "@/assets/profile-photo.png";
+import galleryCloud from "@/assets/gallery-cloud.jpg";
+import galleryApi from "@/assets/gallery-api.jpg";
+import galleryLibrary from "@/assets/gallery-library.jpg";
+import galleryLaptop from "@/assets/gallery-laptop.jpg";
 
 interface GalleryItem {
   id: number;
-  type: "image" | "avatar";
-  src?: string;
+  src: string;
   label: string;
+  category: string;
 }
 
-const defaultItems: GalleryItem[] = [
-  { id: 1, type: "avatar", label: "Profile Shot" },
-  { id: 2, type: "image", label: "Project Screenshot" },
-  { id: 3, type: "image", label: "Design Work" },
-  { id: 4, type: "avatar", label: "Action Shot" },
-  { id: 5, type: "image", label: "UI Mockup" },
-  { id: 6, type: "image", label: "Architecture Diagram" },
+const galleryItems: GalleryItem[] = [
+  { id: 1, src: profilePhoto, label: "Profile Shot", category: "About Me" },
+  { id: 2, src: galleryLaptop, label: "Development Setup", category: "Workspace" },
+  { id: 3, src: galleryCloud, label: "Cloud Infrastructure", category: "Technology" },
+  { id: 4, src: galleryApi, label: "API Architecture", category: "Backend" },
+  { id: 5, src: galleryLibrary, label: "Library System", category: "Project" },
+  { id: 6, src: profilePhoto, label: "The Developer", category: "About Me" },
 ];
 
 const containerVariants = {
   hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.1 },
-  },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const itemVariants = {
@@ -36,14 +38,31 @@ const itemVariants = {
 };
 
 const GallerySection = () => {
-  const [items, setItems] = useState<GalleryItem[]>(defaultItems);
   const [hoveredId, setHoveredId] = useState<number | null>(null);
 
   return (
     <section id="gallery" className="py-24 relative overflow-hidden">
-      {/* Decorative background elements */}
       <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 right-1/4 w-96 h-96 rounded-full bg-secondary/5 blur-[120px] pointer-events-none" />
+
+      {/* Floating circles */}
+      {[...Array(8)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full bg-primary/10 pointer-events-none"
+          style={{
+            width: 6 + i * 3,
+            height: 6 + i * 3,
+            left: `${10 + i * 11}%`,
+            top: `${15 + (i % 4) * 20}%`,
+          }}
+          animate={{
+            y: [0, -25, 0],
+            opacity: [0.2, 0.5, 0.2],
+          }}
+          transition={{ duration: 3 + i, repeat: Infinity, ease: "easeInOut", delay: i * 0.4 }}
+        />
+      ))}
 
       <div className="container mx-auto px-6 relative z-10">
         <motion.div
@@ -58,7 +77,7 @@ const GallerySection = () => {
             Visual <span className="gradient-text">Showcase</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-md mx-auto">
-            A glimpse into my work, personality, and creative process.
+            A glimpse into my work, tools, and creative process.
           </p>
         </motion.div>
 
@@ -69,84 +88,54 @@ const GallerySection = () => {
           viewport={{ once: true }}
           className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 max-w-4xl mx-auto"
         >
-          {items.map((item) => {
-            const isAvatar = item.type === "avatar";
-            return (
+          {galleryItems.map((item) => (
+            <motion.div
+              key={item.id}
+              variants={itemVariants}
+              onHoverStart={() => setHoveredId(item.id)}
+              onHoverEnd={() => setHoveredId(null)}
+              whileHover={{ scale: 1.05, y: -8 }}
+              whileTap={{ scale: 0.97 }}
+              className="relative group rounded-xl overflow-hidden border border-border bg-card cursor-pointer aspect-[4/3]"
+            >
+              <img
+                src={item.src}
+                alt={item.label}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              />
+
+              {/* Pulse ring on hover */}
               <motion.div
-                key={item.id}
-                variants={itemVariants}
-                onHoverStart={() => setHoveredId(item.id)}
-                onHoverEnd={() => setHoveredId(null)}
-                whileHover={{ scale: 1.04, y: -6 }}
-                whileTap={{ scale: 0.97 }}
-                className={`relative group rounded-xl overflow-hidden border border-border bg-card cursor-pointer card-hover ${
-                  isAvatar ? "aspect-square" : "aspect-[4/3]"
-                }`}
+                animate={hoveredId === item.id ? {
+                  scale: [1, 1.6, 1],
+                  opacity: [0.4, 0, 0.4],
+                } : { opacity: 0 }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+                className="absolute inset-0 rounded-xl border-2 border-primary pointer-events-none"
+              />
+
+              {/* Gradient overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: hoveredId === item.id ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent flex items-end p-4"
               >
-                {item.src ? (
-                  <img
-                    src={item.src}
-                    alt={item.label}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                ) : (
-                  <div className="w-full h-full flex flex-col items-center justify-center gap-3 bg-muted/50">
-                    <motion.div
-                      animate={
-                        hoveredId === item.id
-                          ? { scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }
-                          : {}
-                      }
-                      transition={{ duration: 0.6 }}
-                    >
-                      {isAvatar ? (
-                        <User className="w-10 h-10 text-muted-foreground/50" />
-                      ) : (
-                        <ImagePlus className="w-10 h-10 text-muted-foreground/50" />
-                      )}
-                    </motion.div>
-                    <span className="text-xs text-muted-foreground/60 font-body">{item.label}</span>
-                  </div>
-                )}
-
-                {/* Hover overlay */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: hoveredId === item.id ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/30 to-transparent flex items-end p-4"
-                >
-                  <div>
-                    <p className="text-sm font-display font-semibold text-foreground">{item.label}</p>
-                    <p className="text-xs text-primary font-body">
-                      {isAvatar ? "Avatar" : "Image"}
-                    </p>
-                  </div>
-                </motion.div>
-
-                {/* Corner glow on hover */}
-                <motion.div
-                  animate={{
-                    opacity: hoveredId === item.id ? 0.6 : 0,
-                  }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-primary blur-2xl pointer-events-none"
-                />
+                <div>
+                  <p className="text-sm font-display font-semibold text-foreground">{item.label}</p>
+                  <p className="text-xs text-primary font-body">{item.category}</p>
+                </div>
               </motion.div>
-            );
-          })}
-        </motion.div>
 
-        {/* Tip */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.6 }}
-          className="text-center text-xs text-muted-foreground/50 mt-8 font-body"
-        >
-          Upload your images through the chat to replace these placeholders
-        </motion.p>
+              {/* Corner glow */}
+              <motion.div
+                animate={{ opacity: hoveredId === item.id ? 0.6 : 0 }}
+                transition={{ duration: 0.4 }}
+                className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-primary blur-2xl pointer-events-none"
+              />
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
