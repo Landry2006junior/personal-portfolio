@@ -1,6 +1,7 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-
+import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import galleryCloud from "@/assets/gallery-cloud.jpg";
 import galleryApi from "@/assets/gallery-api.jpg";
 import galleryLibrary from "@/assets/gallery-library.jpg";
@@ -37,7 +38,7 @@ const itemVariants = {
 
 const GallerySection = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-
+  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   return (
     <section id="gallery" className="py-24 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
@@ -94,6 +95,7 @@ const GallerySection = () => {
               onHoverEnd={() => setHoveredId(null)}
               whileHover={{ scale: 1.05, y: -8 }}
               whileTap={{ scale: 0.97 }}
+              onClick={() => setSelectedItem(item)}
               className="relative group rounded-xl overflow-hidden border border-border bg-card cursor-pointer aspect-[4/3]"
             >
               <img
@@ -134,6 +136,28 @@ const GallerySection = () => {
             </motion.div>
           ))}
         </motion.div>
+
+        {/* Lightbox Modal */}
+        <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+          <DialogContent className="max-w-4xl w-[90vw] p-2 bg-card border-border">
+            <VisuallyHidden>
+              <DialogTitle>{selectedItem?.label}</DialogTitle>
+            </VisuallyHidden>
+            {selectedItem && (
+              <div className="relative rounded-lg overflow-hidden">
+                <img
+                  src={selectedItem.src}
+                  alt={selectedItem.label}
+                  className="w-full h-auto max-h-[80vh] object-contain"
+                />
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-4">
+                  <p className="text-lg font-display font-semibold text-foreground">{selectedItem.label}</p>
+                  <p className="text-sm text-primary font-body">{selectedItem.category}</p>
+                </div>
+              </div>
+            )}
+          </DialogContent>
+        </Dialog>
       </div>
     </section>
   );
