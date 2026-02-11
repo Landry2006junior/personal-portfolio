@@ -36,7 +36,7 @@ const SkillsSection = () => {
           className="text-center mb-16"
         >
           <p className="text-secondary text-sm tracking-[0.3em] uppercase mb-3 font-body">Skills</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Tech <span className="text-glow-pink text-secondary">Stack</span>
           </h2>
         </motion.div>
