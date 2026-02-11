@@ -1,7 +1,8 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import galleryCloud from "@/assets/gallery-cloud.jpg";
 import galleryApi from "@/assets/gallery-api.jpg";
 import galleryLibrary from "@/assets/gallery-library.jpg";
@@ -38,7 +39,26 @@ const itemVariants = {
 
 const GallerySection = () => {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const selectedItem = selectedIndex !== null ? galleryItems[selectedIndex] : null;
+
+  const navigatePrev = useCallback(() => {
+    setSelectedIndex((i) => (i !== null ? (i - 1 + galleryItems.length) % galleryItems.length : null));
+  }, []);
+
+  const navigateNext = useCallback(() => {
+    setSelectedIndex((i) => (i !== null ? (i + 1) % galleryItems.length : null));
+  }, []);
+
+  useEffect(() => {
+    if (selectedIndex === null) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "ArrowLeft") navigatePrev();
+      if (e.key === "ArrowRight") navigateNext();
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [selectedIndex, navigatePrev, navigateNext]);
   return (
     <section id="gallery" className="py-24 relative overflow-hidden">
       <div className="absolute top-0 left-1/4 w-96 h-96 rounded-full bg-primary/5 blur-[120px] pointer-events-none" />
@@ -95,7 +115,7 @@ const GallerySection = () => {
               onHoverEnd={() => setHoveredId(null)}
               whileHover={{ scale: 1.05, y: -8 }}
               whileTap={{ scale: 0.97 }}
-              onClick={() => setSelectedItem(item)}
+              onClick={() => setSelectedIndex(galleryItems.indexOf(item))}
               className="relative group rounded-xl overflow-hidden border border-border bg-card cursor-pointer aspect-[4/3]"
             >
               <img
@@ -138,21 +158,50 @@ const GallerySection = () => {
         </motion.div>
 
         {/* Lightbox Modal */}
-        <Dialog open={!!selectedItem} onOpenChange={(open) => !open && setSelectedItem(null)}>
+        <Dialog open={selectedIndex !== null} onOpenChange={(open) => !open && setSelectedIndex(null)}>
           <DialogContent className="max-w-4xl w-[90vw] p-2 bg-card border-border">
             <VisuallyHidden>
               <DialogTitle>{selectedItem?.label}</DialogTitle>
             </VisuallyHidden>
             {selectedItem && (
               <div className="relative rounded-lg overflow-hidden">
-                <img
-                  src={selectedItem.src}
-                  alt={selectedItem.label}
-                  className="w-full h-auto max-h-[80vh] object-contain"
-                />
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-4">
-                  <p className="text-lg font-display font-semibold text-foreground">{selectedItem.label}</p>
-                  <p className="text-sm text-primary font-body">{selectedItem.category}</p>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={selectedItem.id}
+                    src={selectedItem.src}
+                    alt={selectedItem.label}
+                    className="w-full h-auto max-h-[80vh] object-contain"
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.25 }}
+                  />
+                </AnimatePresence>
+
+                {/* Navigation arrows */}
+                <button
+                  onClick={(e) => { e.stopPropagation(); navigatePrev(); }}
+                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={(e) => { e.stopPropagation(); navigateNext(); }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
+                  aria-label="Next image"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-4 flex items-end justify-between">
+                  <div>
+                    <p className="text-lg font-display font-semibold text-foreground">{selectedItem.label}</p>
+                    <p className="text-sm text-primary font-body">{selectedItem.category}</p>
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {(selectedIndex ?? 0) + 1} / {galleryItems.length}
+                  </p>
                 </div>
               </div>
             )}
