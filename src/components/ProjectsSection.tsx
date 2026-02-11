@@ -150,7 +150,7 @@ const ProjectsSection = () => {
           className="text-center mb-16"
         >
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">Work</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Featured <span className="gradient-text">Projects</span>
           </h2>
         </motion.div>

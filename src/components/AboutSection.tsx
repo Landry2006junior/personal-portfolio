@@ -40,7 +40,7 @@ const AboutSection = () => {
           className="max-w-3xl mx-auto text-center mb-16"
         >
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">About Me</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold mb-6 text-foreground">
+          <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-foreground">
             Engineer. Creator. <span className="gradient-text">Problem Solver.</span>
           </h2>
           <p className="text-muted-foreground text-lg leading-relaxed">

@@ -54,12 +54,12 @@ const HeroSection = () => {
           <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-4">
             Software Engineer
           </p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-900 leading-[0.9] mb-6">
+          <h1 className="text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-display font-900 leading-[0.9] mb-6">
             <span className="block text-foreground">BUILDING</span>
             <span className="block gradient-text">THE FUTURE</span>
             <span className="block text-foreground">OF THE WEB</span>
           </h1>
-          <p className="text-muted-foreground max-w-xl mx-auto text-lg mb-10 font-body">
+          <p className="text-muted-foreground max-w-xl mx-auto text-base sm:text-lg mb-10 font-body px-2">
             Full-stack developer specializing in MERN stack, Python automation,
             and crafting high-performance web applications.
           </p>

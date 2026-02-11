@@ -92,7 +92,7 @@ const GallerySection = () => {
           className="text-center mb-16"
         >
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">Gallery</p>
-          <h2 className="text-4xl md:text-5xl font-display font-bold text-foreground">
+          <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Visual <span className="gradient-text">Showcase</span>
           </h2>
           <p className="text-muted-foreground mt-4 max-w-md mx-auto">
@@ -105,7 +105,7 @@ const GallerySection = () => {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto"
+          className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto"
         >
           {galleryItems.map((item) => (
             <motion.div
@@ -159,7 +159,7 @@ const GallerySection = () => {
 
         {/* Lightbox Modal */}
         <Dialog open={selectedIndex !== null} onOpenChange={(open) => !open && setSelectedIndex(null)}>
-          <DialogContent className="max-w-4xl w-[90vw] p-2 bg-card border-border">
+          <DialogContent className="max-w-4xl w-[95vw] p-1 sm:p-2 bg-card border-border">
             <VisuallyHidden>
               <DialogTitle>{selectedItem?.label}</DialogTitle>
             </VisuallyHidden>
@@ -181,23 +181,23 @@ const GallerySection = () => {
                 {/* Navigation arrows */}
                 <button
                   onClick={(e) => { e.stopPropagation(); navigatePrev(); }}
-                  className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
+                  className="absolute left-1 sm:left-2 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
                   aria-label="Previous image"
                 >
-                  <ChevronLeft className="h-5 w-5" />
+                  <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
                 <button
                   onClick={(e) => { e.stopPropagation(); navigateNext(); }}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
+                  className="absolute right-1 sm:right-2 top-1/2 -translate-y-1/2 p-1.5 sm:p-2 rounded-full bg-background/70 hover:bg-background text-foreground backdrop-blur-sm transition-colors"
                   aria-label="Next image"
                 >
-                  <ChevronRight className="h-5 w-5" />
+                  <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
                 </button>
 
-                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-4 flex items-end justify-between">
+                <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-background/90 to-transparent p-3 sm:p-4 flex items-end justify-between">
                   <div>
-                    <p className="text-lg font-display font-semibold text-foreground">{selectedItem.label}</p>
-                    <p className="text-sm text-primary font-body">{selectedItem.category}</p>
+                    <p className="text-sm sm:text-lg font-display font-semibold text-foreground">{selectedItem.label}</p>
+                    <p className="text-xs sm:text-sm text-primary font-body">{selectedItem.category}</p>
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {(selectedIndex ?? 0) + 1} / {galleryItems.length}
