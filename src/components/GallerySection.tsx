@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useCallback, useEffect } from "react";
+import ScrollReveal from "./ScrollReveal";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -84,13 +85,7 @@ const GallerySection = () => {
       ))}
 
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <ScrollReveal className="text-center mb-16">
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">Gallery</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Visual <span className="gradient-text">Showcase</span>
@@ -98,7 +93,7 @@ const GallerySection = () => {
           <p className="text-muted-foreground mt-4 max-w-md mx-auto">
             A glimpse into my work, tools, and creative process.
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <motion.div
           variants={containerVariants}

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import ScrollReveal from "./ScrollReveal";
 
 const skills = [
   { name: "React / Next.js", level: 90, category: "Frontend" },
@@ -29,28 +30,17 @@ const SkillsSection = () => {
       ))}
 
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <ScrollReveal className="text-center mb-16">
           <p className="text-secondary text-sm tracking-[0.3em] uppercase mb-3 font-body">Skills</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Tech <span className="text-glow-pink text-secondary">Stack</span>
           </h2>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="max-w-3xl mx-auto space-y-6">
           {skills.map((skill, i) => (
-            <motion.div
-              key={skill.name}
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
-              whileHover={{ x: 6 }}
-            >
+            <ScrollReveal key={skill.name} direction="left" delay={i * 0.08}>
+              <motion.div whileHover={{ x: 6 }}>
               <div className="flex justify-between items-center mb-2">
                 <span className="text-sm font-display font-medium text-foreground">{skill.name}</span>
                 <span className="text-xs text-muted-foreground font-body px-2 py-0.5 rounded-full bg-muted">
@@ -69,7 +59,8 @@ const SkillsSection = () => {
                   transition={{ duration: 1, delay: 0.2 + i * 0.05, ease: "easeOut" }}
                 />
               </div>
-            </motion.div>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

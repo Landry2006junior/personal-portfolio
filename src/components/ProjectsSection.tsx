@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Star, Database, FolderTree, Shield } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 interface Project {
   title: string;
@@ -47,11 +48,8 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
   const isFeatured = project.featured;
 
   return (
+    <ScrollReveal delay={index * 0.15} direction={index % 2 === 0 ? "left" : "right"}>
     <motion.article
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
       whileHover={{ y: -6 }}
       className={`group rounded-xl border bg-card card-hover ${
         isFeatured
@@ -117,6 +115,7 @@ const ProjectCard = ({ project, index }: { project: Project; index: number }) =>
         </div>
       </div>
     </motion.article>
+    </ScrollReveal>
   );
 };
 
@@ -143,17 +142,12 @@ const ProjectsSection = () => {
       ))}
 
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <ScrollReveal className="text-center mb-16">
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">Work</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Featured <span className="gradient-text">Projects</span>
           </h2>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {projects.map((project, i) => (

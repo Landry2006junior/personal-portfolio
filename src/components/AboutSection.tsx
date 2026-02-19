@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Target, Code2, Server, Palette } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const highlights = [
   { icon: Server, label: "Backend Dev", desc: "MERN stack, REST APIs, MongoDB" },
@@ -32,13 +33,7 @@ const AboutSection = () => {
       ))}
 
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="max-w-3xl mx-auto text-center mb-16"
-        >
+        <ScrollReveal className="max-w-3xl mx-auto text-center mb-16">
           <p className="text-primary text-sm tracking-[0.3em] uppercase mb-3 font-body">About Me</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold mb-6 text-foreground">
             Engineer. Creator. <span className="gradient-text">Problem Solver.</span>
@@ -49,35 +44,26 @@ const AboutSection = () => {
             delivering performant, scalable solutions with clean user experiences. Currently seeking local and 
             international opportunities in software engineering and computer science.
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {highlights.map((item, i) => (
-            <motion.div
-              key={item.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              whileHover={{ y: -8, scale: 1.03 }}
-              className="group p-6 rounded-xl bg-card border border-border card-hover cursor-default"
-            >
+            <ScrollReveal key={item.label} delay={i * 0.12} direction={i % 2 === 0 ? "left" : "right"}>
+              <motion.div
+                whileHover={{ y: -8, scale: 1.03 }}
+                className="group p-6 rounded-xl bg-card border border-border card-hover cursor-default"
+              >
               <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
                 <item.icon className="w-6 h-6 text-primary" />
               </div>
               <h3 className="font-display font-semibold text-foreground mb-1">{item.label}</h3>
               <p className="text-sm text-muted-foreground">{item.desc}</p>
-            </motion.div>
+              </motion.div>
+            </ScrollReveal>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="mt-12 text-center"
-        >
+        <ScrollReveal delay={0.4} className="mt-12 text-center">
           <a
             href="/resume.pdf"
             download
@@ -85,7 +71,7 @@ const AboutSection = () => {
           >
             Download Résumé
           </a>
-        </motion.div>
+        </ScrollReveal>
       </div>
     </section>
   );
