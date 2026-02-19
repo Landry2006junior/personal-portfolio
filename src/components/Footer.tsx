@@ -1,11 +1,13 @@
+import ScrollReveal from "./ScrollReveal";
+
 const Footer = () => {
   return (
     <footer className="py-8 border-t border-border">
-      <div className="container mx-auto px-6 text-center">
+      <ScrollReveal className="container mx-auto px-6 text-center">
         <p className="text-sm text-muted-foreground font-body">
           © {new Date().getFullYear()} — Designed & Built with 💻
         </p>
-      </div>
+      </ScrollReveal>
     </footer>
   );
 };

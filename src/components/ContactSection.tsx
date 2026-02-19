@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { Github, Mail } from "lucide-react";
+import ScrollReveal from "./ScrollReveal";
 
 const links = [
   { icon: Github, label: "GitHub", url: "https://github.com/Landry2006junior", desc: "View my repos" },
@@ -46,12 +47,7 @@ const ContactSection = () => {
       ))}
 
       <div className="container mx-auto px-6 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-16"
-        >
+        <ScrollReveal className="text-center mb-16">
           <p className="text-secondary text-sm tracking-[0.3em] uppercase mb-3 font-body">Contact</p>
           <h2 className="text-3xl md:text-5xl font-display font-bold text-foreground">
             Let's <span className="text-glow-pink text-secondary">Connect</span>
@@ -59,7 +55,7 @@ const ContactSection = () => {
           <p className="text-muted-foreground mt-4 max-w-md mx-auto">
             Open to opportunities in software engineering — locally and internationally.
           </p>
-        </motion.div>
+        </ScrollReveal>
 
         {/* Pulse rings */}
         <div className="relative flex justify-center mb-12">
