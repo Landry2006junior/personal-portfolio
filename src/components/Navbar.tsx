@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
@@ -8,6 +8,40 @@ const navItems = [
   { label: "Projects", href: "#projects" },
   { label: "Contact", href: "#contact" },
 ];
+
+const RippleLink = ({ children, className, onClick, href }: { children: React.ReactNode; className?: string; onClick?: (e: React.MouseEvent) => void; href: string }) => {
+  const [ripples, setRipples] = useState<{ id: number; x: number; y: number }[]>([]);
+
+  const handleMouseEnter = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const id = Date.now();
+    setRipples((prev) => [...prev, { id, x, y }]);
+    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 800);
+  }, []);
+
+  return (
+    <a
+      href={href}
+      onClick={onClick}
+      onMouseEnter={handleMouseEnter}
+      className={`relative overflow-hidden ${className}`}
+    >
+      {ripples.map((ripple) => (
+        <motion.span
+          key={ripple.id}
+          className="absolute rounded-full bg-primary/20 pointer-events-none"
+          style={{ left: ripple.x, top: ripple.y, translateX: "-50%", translateY: "-50%" }}
+          initial={{ width: 0, height: 0, opacity: 0.6 }}
+          animate={{ width: 80, height: 80, opacity: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        />
+      ))}
+      {children}
+    </a>
+  );
+};
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -36,17 +70,17 @@ const Navbar = () => {
         {/* Desktop */}
         <div className="hidden md:flex items-center gap-8">
           {navItems.map((item) => (
-            <a
+            <RippleLink
               key={item.label}
               href={item.href}
               onClick={(e) => {
                 e.preventDefault();
                 document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
               }}
-              className="text-sm font-body text-muted-foreground hover:text-primary transition-colors relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left"
+              className="text-sm font-body text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
             >
               {item.label}
-            </a>
+            </RippleLink>
           ))}
         </div>
 
@@ -71,7 +105,7 @@ const Navbar = () => {
           >
             <div className="container mx-auto px-6 py-4 flex flex-col gap-4">
               {navItems.map((item) => (
-                <a
+                <RippleLink
                   key={item.label}
                   href={item.href}
                   onClick={(e) => {
@@ -79,10 +113,10 @@ const Navbar = () => {
                     setMobileOpen(false);
                     document.querySelector(item.href)?.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="text-sm font-body text-muted-foreground hover:text-primary transition-colors"
+                  className="text-sm font-body text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
                 >
                   {item.label}
-                </a>
+                </RippleLink>
               ))}
             </div>
           </motion.div>
