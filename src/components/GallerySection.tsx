@@ -159,7 +159,7 @@ const GallerySection = () => {
               <DialogTitle>{selectedItem?.label}</DialogTitle>
             </VisuallyHidden>
             {selectedItem && (
-              <div className="relative rounded-lg overflow-hidden">
+              <div className="relative rounded-lg overflow-hidden touch-none">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={selectedItem.id}
@@ -170,6 +170,13 @@ const GallerySection = () => {
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -30 }}
                     transition={{ duration: 0.25 }}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.3}
+                    onDragEnd={(_, info) => {
+                      if (info.offset.x > 80) navigatePrev();
+                      else if (info.offset.x < -80) navigateNext();
+                    }}
                   />
                 </AnimatePresence>
 
