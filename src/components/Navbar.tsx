@@ -83,20 +83,6 @@ const Navbar = () => {
               {item.label}
             </RippleLink>
           ))}
-          <button
-            onClick={toggleTheme}
-            className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
-            aria-label="Toggle theme"
-          >
-            <motion.div
-              key={theme}
-              initial={{ rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-            >
-              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </motion.div>
-          </button>
         </div>
 
         {/* Mobile toggle */}
