@@ -45,6 +45,7 @@ const RippleLink = ({ children, className, onClick, href }: { children: React.Re
 };
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
