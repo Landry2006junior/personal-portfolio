@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import { useTheme } from "@/hooks/useTheme";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -44,6 +45,7 @@ const RippleLink = ({ children, className, onClick, href }: { children: React.Re
 };
 
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -82,6 +84,20 @@ const Navbar = () => {
               {item.label}
             </RippleLink>
           ))}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+            aria-label="Toggle theme"
+          >
+            <motion.div
+              key={theme}
+              initial={{ rotate: -90, opacity: 0 }}
+              animate={{ rotate: 0, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+            >
+              {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </motion.div>
+          </button>
         </div>
 
         {/* Mobile toggle */}
@@ -118,6 +134,13 @@ const Navbar = () => {
                   {item.label}
                 </RippleLink>
               ))}
+              <button
+                onClick={toggleTheme}
+                className="flex items-center gap-2 text-sm font-body text-muted-foreground hover:text-primary transition-colors px-3 py-2 rounded-md"
+              >
+                {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </button>
             </div>
           </motion.div>
         )}
